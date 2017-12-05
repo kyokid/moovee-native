@@ -20,9 +20,9 @@ class TopRated extends Component {
         }
     }
 
-    async fecthTvShows(page) {
-        const tvshow_uri = `${DEFAULT_URL}/movie/top_rated?api_key=${api_key}&language=${lang}&page=${page}`;
-        let data = await fetch(tvshow_uri);
+    async fetchTopRated(page) {
+        const topRatedUrl = `${DEFAULT_URL}/movie/top_rated?api_key=${api_key}&language=${lang}&page=${page}`;
+        let data = await fetch(topRatedUrl);
         let result = await data.json();
 
         return result.results;
@@ -33,7 +33,7 @@ class TopRated extends Component {
         this.setState({
             loading: true
         })
-        await this.fecthTvShows(page).then((toprated) => {
+        await this.fetchTopRated(page).then((toprated) => {
             this.setState({
                 topRateds: this.state.topRateds.concat(toprated),
                 page,
@@ -48,7 +48,7 @@ class TopRated extends Component {
             topRateds: [],
             isRefreshing: true
         })
-        await this.fecthTvShows(page).then((topRateds) => {
+        await this.fetchTopRated(page).then((topRateds) => {
             this.setState({
                 topRateds,
                 page,
@@ -58,7 +58,7 @@ class TopRated extends Component {
     }
 
     async componentWillMount() {
-        await this.fecthTvShows(this.state.page).then((topRateds) => {
+        await this.fetchTopRated(this.state.page).then((topRateds) => {
             this.setState({
                 topRateds,
                 loading: false
