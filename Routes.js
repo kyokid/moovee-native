@@ -7,38 +7,43 @@ import Movies from './Movies'
 import TopRated from './TopRated'
 import MovieDetail from './MovieDetail'
 import Search from './Search'
+import FontAwesome, { Icons } from 'react-native-fontawesome';
 
-export const MovieTabs = TabNavigator({
+export const TabBars = TabNavigator({
     NowPlaying: {
         screen: Movies,
         navigationOptions: {
-            tabBarLabel: 'movies',
+            tabBarLabel: 'Now Playing',
+            tabBarIcon: <FontAwesome style={{ color: "#fc0d1d", fontSize: 20}}>{Icons.play}</FontAwesome>
         }
     },
     TopRated: {
         screen: TopRated,
         navigationOptions: {
-            tabBarLabel: 'Tv Shows',
+            tabBarLabel: 'Top Rated',
+            tabBarIcon: <FontAwesome style={{ color: "#F5A623", fontSize: 20}}>{Icons.star}</FontAwesome>
         }
     }
 }, {
         tabBarOptions: {
             style: {
-                backgroundColor: '#395c93',
+                backgroundColor: '#ffffff',
             },
+            activeTintColor: '#008742',
+            inactiveTintColor: '#BCBEC0'
         }
     })
 
 export const StackRoute = StackNavigator({
     MovieList: {
-        screen: MovieTabs,
+        screen: TabBars,
         navigationOptions: ({ navigation }) =>
             ({
-                title: "Flixie",
-                headerLeft: <Icon name='menu' style={{ marginLeft: 15, color: '#ffffff' }} onPress={() => { navigation.navigate('DrawerOpen') }} />,
-                headerRight: <Icon name='search' style={{ marginRight: 15, color: '#ffffff' }} onPress={() => { navigation.navigate('Search') }}/>,
+                title: "Moovee",
+                headerLeft: <Icon name='menu' style={styles.menu} onPress={() => { navigation.navigate('DrawerOpen') }} />,
+                headerRight: <Icon name='search' style={styles.search} onPress={() => { navigation.navigate('Search') }} />,
                 headerStyle: {
-                    backgroundColor: '#395c93'
+                    backgroundColor: '#008742'
                 },
                 headerTintColor: '#ffffff'
 
@@ -48,9 +53,9 @@ export const StackRoute = StackNavigator({
         screen: MovieDetail,
         navigationOptions: ({ navigation }) =>
             ({
-                title: `${navigation.state.params.type === 'movie' ? navigation.state.params.movie.title : navigation.state.params.movie.name}`,
+                title: `${navigation.state.params.movie.title}`,
                 headerStyle: {
-                    backgroundColor: '#395c93'
+                    backgroundColor: '#008742'
                 },
                 headerTintColor: '#ffffff'
             })
@@ -61,7 +66,7 @@ export const StackRoute = StackNavigator({
             ({
                 title: 'Search',
                 headerStyle: {
-                    backgroundColor: '#395c93'
+                    backgroundColor: '#008742'
                 },
                 headerTintColor: '#ffffff'
             })
@@ -81,3 +86,22 @@ export const Drawer = DrawerNavigator({
         initialRouteName: 'Movies',
         drawerPosition: 'left'
     })
+
+const styles = StyleSheet.create({
+    menu: {
+        marginLeft: 15,
+        color: '#ffffff'
+    },
+    search: {
+        marginRight: 15,
+        color: '#ffffff'
+    },
+    playing: {
+        color: "#fc0d1d", 
+        fontSize: 20
+    },
+    topRated: {
+        color: "#FFEB3B", 
+        fontSize: 20
+    }
+})

@@ -5,6 +5,7 @@ import MovieList from './MovieList'
 
 const api_key = '09e4cc13c99312bf18cad8339e83bc82';
 const lang = 'en-US';
+const DEFAULT_URL = 'https://api.themoviedb.org/3'
 
 // create a component
 class TopRated extends Component {
@@ -12,48 +13,44 @@ class TopRated extends Component {
     constructor(props) {
         super(props);
         this.state = {
-            tvshows: [],
+            topRateds: [],
             loading: true,
             page: 1,
             isRefreshing: false,
         }
-
-        this.handleRefresh = this.handleRefresh.bind(this)
-        this.handleLoadmore = this.handleLoadmore.bind(this)
-        
     }
 
     async fecthTvShows(page) {
-        const tvshow_uri = `https://api.themoviedb.org/3/discover/tv?api_key=${api_key}&language=${lang}&page=${page}`;
+        const tvshow_uri = `${DEFAULT_URL}/movie/top_rated?api_key=${api_key}&language=${lang}&page=${page}`;
         let data = await fetch(tvshow_uri);
         let result = await data.json();
 
         return result.results;
     }
 
-    async handleLoadmore() {
+    handleLoadmore = async () => {
         const page = this.state.page + 1;
         this.setState({
             loading: true
         })
-        await this.fecthTvShows(page).then((tvshows) => {
+        await this.fecthTvShows(page).then((toprated) => {
             this.setState({
-                tvshows: this.state.tvshows.concat(tvshows),
+                topRateds: this.state.topRateds.concat(toprated),
                 page,
                 loading: false
             })
         })
     }
 
-    async handleRefresh() {
+    handleRefresh = async () => {
         const page = 1;
         this.setState({
-            tvshows: [],
+            topRateds: [],
             isRefreshing: true
         })
-        await this.fecthTvShows(page).then((tvshows) => {
+        await this.fecthTvShows(page).then((topRateds) => {
             this.setState({
-                tvshows,
+                topRateds,
                 page,
                 isRefreshing: false
             })
@@ -61,9 +58,9 @@ class TopRated extends Component {
     }
 
     async componentWillMount() {
-        await this.fecthTvShows(this.state.page).then((tvshows) => {
+        await this.fecthTvShows(this.state.page).then((topRateds) => {
             this.setState({
-                tvshows,
+                topRateds,
                 loading: false
             })
         })
@@ -71,13 +68,13 @@ class TopRated extends Component {
 
     render() {
         return (
-            <MovieList movies={this.state.tvshows}
+            <MovieList movies={this.state.topRateds}
                 handleRefresh={this.handleRefresh}
                 loading={this.state.loading}
                 handleLoadmore={this.handleLoadmore}
                 isRefreshing={this.state.isRefreshing}
                 navigate={this.props.navigation.navigate}
-                type='tv'/>
+                />
         );
     }
 }

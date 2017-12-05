@@ -8,14 +8,14 @@ class MovieList extends Component {
 
     render() {
 
-        const { movies, handleRefresh, handleLoadmore, isRefreshing, navigate, type, hasMore } = this.props;
+        const { movies, handleRefresh, handleLoadmore, isRefreshing, navigate, hasMore } = this.props;
 
         return (
             <FlatList
                 data={movies}
                 keyExtractor={(movie) => movie.id}
-                renderItem={(movie) => <MovieCard movie={movie.item} type={type} loadDetail={() => {
-                    navigate("MovieDetail", { movie: movie.item, type: type })
+                renderItem={(movie) => <MovieCard movie={movie.item} loadDetail={() => {
+                    navigate("MovieDetail", { movie: movie.item })
                 }} />}
                 onRefresh={handleRefresh}
                 refreshing={isRefreshing}

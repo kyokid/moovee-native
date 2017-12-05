@@ -84,7 +84,6 @@ class Search extends Component {
                     handleLoadmore={this.handleLoadmore}
                     hasMore={this.state.hasMore}
                     navigate={this.props.navigation.navigate}
-                    type='movie'
                     loading={this.state.loading} />
             } else {
                 return null;

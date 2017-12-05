@@ -10,16 +10,16 @@ const image_path = 'https://image.tmdb.org/t/p/w500';
 // create a component
 class MovieCard extends Component {
     render() {
-        const { movie, loadDetail, type } = this.props;
+        const { movie, loadDetail } = this.props;
         const image = {
             uri: image_path.concat(movie.poster_path)
         }
 
         let movieObj = {
-            title: type === 'movie' ? movie.title : movie.name,
+            title: movie.title,
             rate: movie.vote_average,
             overview: movie.overview,
-            date: type === 'movie' ? movie.release_date.split('-')[0] : movie.first_air_date.split('-')[0]
+            date: movie.release_date.split('-')[0]
         }
 
         return (

@@ -17,7 +17,6 @@ class Movies extends Component {
                 handleLoadmore={handleLoadmore}
                 isRefreshing={isRefreshing}
                 navigate={navigate}
-                type='movie'
                 hasMore={hasMore}/>
         );
     }

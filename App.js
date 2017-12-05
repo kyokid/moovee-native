@@ -7,14 +7,14 @@ import AppHeader from './Header.js'
 import { StackNavigator, DrawerNavigator } from 'react-navigation';
 import MovieDetail from './MovieDetail.js'
 import { title } from 'change-case';
-import { MovieTabs, Drawer } from './Routes'
+import { TabBars, Drawer } from './Routes'
 
 const Roboto_font = require('native-base/Fonts/Roboto.ttf');
-const Roboto_medium_font = require('native-base/Fonts/Roboto_medium.ttf');
-// const FontAwesome = require('./fontawesome-webfont.ttf');
-
-const api_key = '09e4cc13c99312bf18cad8339e83bc82';
+const Roboto_medium_font = require('native-base/Fonts/Roboto_medium.ttf'); 
+const FontAwesome = require('./fontawesome-webfont.ttf');
+const api_key = '4d88b953b70c08814373723637099542';
 const lang = 'en-US';
+const DEFAULT_URL = `https://api.themoviedb.org/3`
 
 export default class App extends React.Component {
   constructor(props) {
@@ -25,7 +25,8 @@ export default class App extends React.Component {
       page: 1,
       loading: true,
       isRefreshing: false,
-      hasMore: true
+      hasMore: true,
+      errorMessage: ''
     }
   }
 
@@ -33,7 +34,7 @@ export default class App extends React.Component {
     await Font.loadAsync({
       Roboto_font,
       Roboto_medium_font,
-      // FontAwesome
+      FontAwesome
     }).then(() => {
       this.setState({
         ready: true
@@ -45,11 +46,11 @@ export default class App extends React.Component {
         movies,
         loading: false
       })
-    });
+    })
   }
 
   async fetchMovie(page) {
-    const now_playing_url = `https://api.themoviedb.org/3/discover/movie?api_key=${api_key}&language=${lang}&page=${page}`;
+    const now_playing_url = `${DEFAULT_URL}/movie/now_playing?api_key=${api_key}&page=${page}&include_adult=false`;
     let data = await fetch(now_playing_url);
     let dataObj = await data.json();
 
@@ -97,6 +98,12 @@ export default class App extends React.Component {
   render() {
     if (!this.state.ready) {
       return <Spinner color='blue' />;
+    }
+    console.warn(this.state.errorMessage)
+    if (this.state.errorMessage) {
+      return <div>
+        {this.state.errorMessage}
+      </div>
     }
     return (
       <Container>
