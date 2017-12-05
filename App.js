@@ -99,7 +99,6 @@ export default class App extends React.Component {
     if (!this.state.ready) {
       return <Spinner color='blue' />;
     }
-    console.warn(this.state.errorMessage)
     if (this.state.errorMessage) {
       return <div>
         {this.state.errorMessage}

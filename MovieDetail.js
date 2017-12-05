@@ -47,7 +47,6 @@ class MovieDetail extends Component {
             date: this.movie.release_date,
             backdrop_path: this.movie.backdrop_path,
         }
-        console.warn("wtf console" + this.state.movie.genres)
         let Content = (props) => {
             if (!this.state.loading) {
                 return (
